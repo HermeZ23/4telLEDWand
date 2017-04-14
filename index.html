@@ -1,8 +1,13 @@
 <head>
 	<script src="lib/nexusUI.js"></script>
+	<script type="text/javascript">
+		nx.sendsTo(function(data) {
+			console.log(data);
+		})
+	</script>
 </head>
 
 <body>
-	<canvas nx="envelope"></canvas>
+	<canvas nx="envelope" id="foo"></canvas>
 	<canvas nx="multislider"></canvas>
 </body>
