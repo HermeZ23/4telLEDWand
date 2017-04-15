@@ -12,10 +12,26 @@
     metadata: false
   });
 
-  oscPort.open();
-
   oscPort.on('ready', function() {
+    var status = document.getElementById('connection-status');
+    status.className = 'green';
     console.log('Ready');
+  });
+
+  oscPort.on('error', function() {
+    var status = document.getElementById('connection-status');
+    status.className = 'red';
+    console.log('Error');
+  });
+
+  oscPort.on('close', function() {
+    var status = document.getElementById('connection-status');
+    status.className = 'red';
+    console.log('Closed');
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    oscPort.open();
   });
 
     function createElement(control) {
@@ -197,5 +213,6 @@
     <option value="phone">Phone</option>
     <option value="iphone5">iPhone 5</option>
   </select>
+  <div id="connection-status" class="red">
   <div id="generated-ui"></div>
 </body>

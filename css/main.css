@@ -3,6 +3,19 @@ body {
   background-color: #111;
 }
 
+#connection-status {
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  border-radius: 5px;
+}
+#connection-status.red{
+  background-color: red
+}
+#connection-status.green{
+  background-color: green
+}
+
 #generated-ui {
   width:100%;
   height: 100%;
