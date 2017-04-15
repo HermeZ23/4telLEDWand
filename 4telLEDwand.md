@@ -1,5 +1,8 @@
 # LED Wand U+00BC 	
 
+8x24 in Fall 2015
+
+
 ## Raspberry Pi
 
 
