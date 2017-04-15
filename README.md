@@ -2,10 +2,15 @@ A web UI that can read `.touchosc` layout files and send OSC messages via a node
 
 ### How to Use
 Open https://hermez23.github.io/4telLEDWand/ and choose a layout file (e.g. from the `layouts` folder).
-**Locally:*** open `index.html` in browser.
+
+**Locally:** open `index.html` in browser.
+```
+google-chrome-stable --disable-web-security -–allow-file-access-from-files --user-data-dir
+```
 
 ### Backend
 To translate from websocket to native OSC messages a small proxy needs to be started.
+
 Start server via `npm install && node ws2osc.js`
 
 ### About

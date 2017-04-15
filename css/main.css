@@ -17,8 +17,8 @@ body {
   position: absolute;
   z-index: -1;
 }
-// first container on top
-div .tab-container:nth-child(2) { // not 1 because of tab-bar
+
+div .tab-container:nth-child(2) {
   z-index: 0;
 }
 
@@ -27,7 +27,6 @@ div .tab-container:nth-child(2) { // not 1 because of tab-bar
   position: absolute;
 }
 
-// this brings the tab-container with the id in the url ("#tabx") on top
 .tab-container:target {
     z-index: 1;
 }

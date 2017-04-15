@@ -5,7 +5,6 @@
 
 <body>
   <input type="file" id="files" name="files[]" multiple />
-  <input type="checkbox" id="tablet"/>
 
   <script>
   var oscPort = new osc.WebSocketPort({
@@ -36,7 +35,6 @@
 
     function createButton(control) {
       var ui_container = document.getElementById('generated-ui');
-      var tablet = document.getElementById('tablet').checked;
       var btn = document.createElement("button");
 
       var name = atob(control.getNamedItem('osc_cs').value);
@@ -50,10 +48,10 @@
       btn.appendChild(name_node);
       btn.setAttribute('name', name);
       btn.setAttribute('value', scalet);
-      btn.style.top = tablet ? 800 - x -w : y;
-      btn.style.left = tablet ? y : x;
-      btn.style.height = tablet ? w : h;
-      btn.style.width = tablet ? h : w;
+      btn.style.top = landscape ? 800 - x -w : y;
+      btn.style.left = landscape ? y : x;
+      btn.style.height = landscape ? w : h;
+      btn.style.width = landscape ? h : w;
 
       btn.addEventListener('click', function(e) {
         oscPort.send({
@@ -73,7 +71,6 @@
     function createOther(control) {
       var ui_container = document.getElementById('generated-ui');
       var btn = document.createElement("div");
-      var tablet = document.getElementById('tablet').checked;
 
       var name = atob((control.getNamedItem('text') || control.getNamedItem('osc_cs')).value);
       var x = control.getNamedItem('x').value;
@@ -84,10 +81,10 @@
 
       var name_node = document.createTextNode(name);
       btn.appendChild(name_node);
-      btn.style.top = tablet ? 800 - x -w: y;
-      btn.style.left = tablet ? y : x;
-      btn.style.heigth = tablet ? w : h;
-      btn.style.width = tablet ? h : w;
+      btn.style.top = landscape ? 800 - x -w: y;
+      btn.style.left = landscape ? y : x;
+      btn.style.heigth = landscape ? w : h;
+      btn.style.width = landscape ? h : w;
       if (color)
         btn.style.color = color.value;
 
@@ -123,6 +120,34 @@
       return btn;
     }
 
+    function displayLayout(layoutStr) {
+      var parser = new DOMParser();
+      var xmlDoc = parser.parseFromString(layoutStr, "text/xml");
+
+      var ui_container = document.getElementById('generated-ui');
+      empty(ui_container);
+
+      var layout = xmlDoc.getElementsByTagName("layout")[0];
+      var w = layout.attributes.getNamedItem('w');
+      var h = layout.attributes.getNamedItem('h');
+      w = w && w.value;
+      h = h && h.value;
+      var orientation = layout.attributes.getNamedItem('orientation');
+      landscape = orientation && orientation.value == 'vertical';
+      
+      var tabs = xmlDoc.getElementsByTagName("tabpage");
+      tabs = Array.prototype.slice.call(tabs);
+
+      var tab_containers = tabs.map(createTab).filter(Boolean);
+      var tab_btns = tab_containers.map(createTabButton)
+      var tab_bar = document.createElement('div');
+      tab_bar.id = 'tab-bar';
+
+      ui_container.appendChild(tab_bar);
+      tab_containers.forEach(ui_container.appendChild.bind(ui_container));
+      tab_btns.forEach(tab_bar.appendChild.bind(tab_bar));
+    }
+
     /**
      * Read file as String, parse, create elements
      */
@@ -131,29 +156,34 @@
       reader.readAsText(evt.target.files[0]);
 
       reader.onload = function(e) {
-        var txt = e.target.result;
-        var parser = new DOMParser();
-        var xmlDoc = parser.parseFromString(txt, "text/xml");
-
-        var ui_container = document.getElementById('generated-ui');
-        empty(ui_container);
-
-        var tabs = xmlDoc.getElementsByTagName("tabpage");
-        tabs = Array.prototype.slice.call(tabs);
-
-        var tab_containers = tabs.map(createTab).filter(Boolean);
-        var tab_btns = tab_containers.map(createTabButton)
-        var tab_bar = document.createElement('div');
-        tab_bar.id = 'tab-bar';
-
-        ui_container.appendChild(tab_bar);
-        tab_containers.forEach(ui_container.appendChild.bind(ui_container));
-        tab_btns.forEach(tab_bar.appendChild.bind(tab_bar));
+        displayLayout(e.target.result);
       }
 
     }
 
+    function getPredefinedLayout(name) {
+      if (!name) return;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'layouts/' + name + '.xml', true);
+
+      xhr.onreadystatechange = function(e) {
+        if (this.readyState == 4) {
+          displayLayout(this.responseText);
+        }
+      };
+
+      xhr.send();
+    }
+
+    var landscape = false;
     document.getElementById('files').addEventListener('change', handleFileSelect, false);
   </script>
+  <select onchange="getPredefinedLayout(this.value)">
+    <<option>Choose template</option>
+    <option value="tablet">Tablet</option>
+    <option value="phone">Phone</option>
+    <option value="iphone5">iPhone 5</option>
+  </select>
   <div id="generated-ui"></div>
 </body>
