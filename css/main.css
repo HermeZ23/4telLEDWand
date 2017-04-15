@@ -17,8 +17,8 @@ body {
   position: absolute;
   z-index: -1;
 }
-
-div .tab-container:nth-child(2) {
+// first container on top
+div .tab-container:nth-child(2) { // not 1 because of tab-bar
   z-index: 0;
 }
 
@@ -27,11 +27,12 @@ div .tab-container:nth-child(2) {
   position: absolute;
 }
 
+// this brings the tab-container with the id in the url ("#tabx") on top
 .tab-container:target {
     z-index: 1;
 }
 
-#generated-ui button {
+.tab-container button {
   color: rgba(0, 0, 0, 0);
   border: none;
   border-radius: 10px;
@@ -39,7 +40,7 @@ div .tab-container:nth-child(2) {
   cursor: pointer; // Flutschfinger
 }
 
-#generated-ui div:not(#tab-bar) div {
+.tab-container div {
   color: yellow;
   text-align: center;
   border: 1px solid #440;
