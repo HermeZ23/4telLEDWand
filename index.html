@@ -134,7 +134,7 @@
       h = h && h.value;
       var orientation = layout.attributes.getNamedItem('orientation');
       landscape = orientation && orientation.value == 'vertical';
-      
+
       var tabs = xmlDoc.getElementsByTagName("tabpage");
       tabs = Array.prototype.slice.call(tabs);
 
@@ -146,6 +146,17 @@
       ui_container.appendChild(tab_bar);
       tab_containers.forEach(ui_container.appendChild.bind(ui_container));
       tab_btns.forEach(tab_bar.appendChild.bind(tab_bar));
+
+      // Stop href="#hashtarget" links jumping around the page
+      var hashLinks = document.querySelectorAll("a[href^='#']");
+      [].forEach.call(hashLinks, function (link) {
+        link.addEventListener("click", function (event) {
+          event.preventDefault();
+          history.pushState({}, "", link.href);
+          history.pushState({}, "", link.href);
+          history.back(); // workaround for https://bugs.webkit.org/show_bug.cgi?id=83490
+        });
+      });
     }
 
     /**
@@ -178,6 +189,7 @@
 
     var landscape = false;
     document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
   </script>
   <select onchange="getPredefinedLayout(this.value)">
     <<option>Choose template</option>
