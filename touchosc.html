@@ -40,10 +40,10 @@
       btn.appendChild(name_node);
       btn.setAttribute('name', name);
       btn.setAttribute('value', control.getNamedItem('scalet').value);
-      btn.style.top = control.getNamedItem('x').value;
+      btn.style.top = 1080 - 360 - control.getNamedItem('x').value;
       btn.style.left = control.getNamedItem('y').value;
-      btn.style.height = control.getNamedItem('w').value;
-      btn.style.width = control.getNamedItem('h').value;
+      btn.style.height = control.getNamedItem('w').value - 1;
+      btn.style.width = control.getNamedItem('h').value -1;
       ui_container.appendChild(btn);
 
       btn.addEventListener('click', function(e) {
@@ -65,7 +65,7 @@
       var name = atob((control.getNamedItem('text') || control.getNamedItem('osc_cs')).value);
       var name_node = document.createTextNode(name);
       btn.appendChild(name_node);
-      btn.style.top = control.getNamedItem('x').value;
+      btn.style.top = 1080 - 360 - control.getNamedItem('x').value;
       btn.style.left = control.getNamedItem('y').value;
       btn.style.heigth = control.getNamedItem('w').value;
       btn.style.width = control.getNamedItem('h').value;

@@ -1,5 +1,28 @@
+
+body {
+  background-color: #111;
+}
+
 #generated-ui,
 #generated-ui button,
 #generated-ui div {
   position: absolute;
+}
+
+#generated-ui button {
+  color: rgba(0, 0, 0, 0);
+  border: none;
+  border-radius: 10px;
+  background-color: #121;
+  cursor: pointer; // Flutschfinger
+}
+
+#generated-ui div {
+  color: yellow;
+  text-align: center;
+  border: 1px solid #440;
+  padding: 4px;
+  border-radius: 10px;
+  margin: -4px 0 0 -4px;
+  pointer-events: none; // click through
 }
