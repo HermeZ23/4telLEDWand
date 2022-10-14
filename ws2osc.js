@@ -1,5 +1,7 @@
 #!/bin/env node
 
+var PORT = 80;
+
 var osc = require("osc"),
     http = require("http"),
     express = require("express"),
@@ -8,9 +10,9 @@ var osc = require("osc"),
 // Create an Express server app
 // and serve up a directory of static files.
 var app = express(),
-    server = app.listen(8081);
+    server = app.listen(PORT);
 
-app.use("/", express.static(__dirname + "/static"));
+app.use("/", express.static(__dirname));
 
 // Listen for Web Socket requests.
 var wss = new WebSocket.Server({
