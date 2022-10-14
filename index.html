@@ -6,9 +6,10 @@
 <body>
   <input type="file" id="files" name="files[]" multiple />
 
-  <script>
+<script>
+var HOST = window.location.toString().split("://")[1];
   var oscPort = new osc.WebSocketPort({
-    url: "ws://localhost:8081",
+    url: "ws://"+HOST,
     metadata: false
   });
 
@@ -213,6 +214,7 @@
     <option value="phone">Phone</option>
     <option value="iphone5">iPhone 5</option>
   </select>
-  <div id="connection-status" class="red">
+  <div id="connection-status" class="red">connection</div>
   <div id="generated-ui"></div>
 </body>
+
